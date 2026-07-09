@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    
+    tools {
+        jdk 'Java21' // Must match the exact name from your Jenkins Tools page
+    }
 
     environment {
         REGISTRY = "ashwiniboddu"
