@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    
-    tools {
-        jdk 'Java21' // Must match the exact name from your Jenkins Tools page
-    }
 
     environment {
         REGISTRY = "ashwiniboddu"
@@ -20,11 +16,8 @@ pipeline {
             steps {
                 // This script block explicitly forces Jenkins to overwrite the PATH with your Dashboard's Java21
                 script {
-                    def javaHome = tool name: 'Java21', type: 'jdk'
-                    withEnv(["JAVA_HOME=${javaHome}", "PATH+MAVEN=${javaHome}/bin"]) {
-                        sh 'chmod +x ./mvnw'
-                        sh './mvnw clean package'
-                    }
+                    sh 'chmod +x ./mvnw'
+                    sh './mvnw clean package'
                 }
             }
         }
