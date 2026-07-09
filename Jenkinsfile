@@ -35,8 +35,23 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-cred', variable: 'KUBECONFIG')]) {
+                    sh """
+                        helm upgrade --install myapp ./helm/myapp \
+                          --set image.repository=${REGISTRY}/${IMAGE_NAME} \
+                          --set image.tag=${IMAGE_TAG} \
+                          --atomic --timeout 5m
+                    """
+                }
+            }
+        }
     }
     post {
+        success{
+            echo 'Build has completed successfully'
+        }
         failure {
             echo 'Build failed - this is where a real pipeline would notify Slack/Teams and NOT proceed to deploy.'
         }
