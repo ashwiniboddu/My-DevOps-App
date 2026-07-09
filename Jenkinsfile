@@ -58,7 +58,7 @@ pipeline {
             echo 'Build has completed successfully'
         }
         failure {
-            echo 'Build failed - this is where a real pipeline would notify Slack/Teams and NOT proceed to deploy.'
+            echo 'Build failed and deployment got stopped.'
         }
     }
 }
