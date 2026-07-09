@@ -15,6 +15,7 @@ pipeline {
         stage ('Build & Unit Test') {
             steps {
                 sh 'chmod +x ./mvnw'
+                sh './mvnw clean package' 
                 sh './mvnw  clean verify'
             }
         }
