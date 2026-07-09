@@ -18,9 +18,14 @@ pipeline {
         }
         stage ('Build & Unit Test') {
             steps {
-                sh 'chmod +x ./mvnw'
-                sh './mvnw clean package' 
-                sh './mvnw  clean verify'
+                // This script block explicitly forces Jenkins to overwrite the PATH with your Dashboard's Java21
+                script {
+                    def javaHome = tool name: 'Java21', type: 'jdk'
+                    withEnv(["JAVA_HOME=${javaHome}", "PATH+MAVEN=${javaHome}/bin"]) {
+                        sh 'chmod +x ./mvnw'
+                        sh './mvnw clean package'
+                    }
+                }
             }
         }
         stage ('Build Docker Image') {
